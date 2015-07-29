@@ -15,8 +15,6 @@ public class ScreenManager : MonoBehaviour {
     //Function by JFons
     public static Vector3 ScreenToWorld(Vector2 screenPosition) // THIS ONLY WORKS IF THE CAMERA IS AT (0,0) 
     {
-        screenPosition.x += Screen.width / 2;
-        screenPosition.y += Screen.height / 2;
-        return Camera.main.ScreenToWorldPoint(screenPosition);
+        return Camera.main.ScreenToWorldPoint( new Vector3(screenPosition.x, screenPosition.y, Camera.main.nearClipPlane) );
     }   
 }

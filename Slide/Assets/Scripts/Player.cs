@@ -5,6 +5,9 @@ public class Player : MonoBehaviour
 {
     private Vector3 lastMousePosition;
 
+    [SerializeField]
+    private Brush brush;
+
 	void Start () 
     {
         lastMousePosition = Vector3.zero;
@@ -28,12 +31,15 @@ public class Player : MonoBehaviour
         else if (Input.GetMouseButton(0))
         {
             position = ScreenManager.ScreenToWorld(Input.mousePosition);
-            speed = ScreenManager.ScreenToWorld(Input.mousePosition - lastMousePosition / Time.deltaTime);
+            speed = (ScreenManager.ScreenToWorld(Input.mousePosition) - ScreenManager.ScreenToWorld(lastMousePosition)) / Time.deltaTime;
+        }
+        else if (Input.GetMouseButtonUp(0))
+        {
+            brush.ClearLines();
         }
 
-        if(speed != Vector2.zero)
-        {
-            Brush.CreateBrush(position, speed);
-        }
+        if(speed != Vector2.zero) brush.DrawLineTo(position, speed);
+
+        lastMousePosition = Input.mousePosition;
     }
 }
